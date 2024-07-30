@@ -4,22 +4,20 @@ import Product from "./Product";
 
 export default function Products() {
   const [loadedMeals, setLoadedMeals] = useState([]);
-
-  function handleAddItemToCart() {
-    Cartctx.addItem(meal);
-    console.log("Added item to cart");
-  }
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function fetchMeals() {
+      setIsLoading(true);
       const response = await fetch("http://localhost:3000/meals");
       const responseData = await response.json();
 
       if (!response.ok) {
-        throw new Error("Something went wrong!");
+        throw new Error("Error fetching meals. Please try again later.");
       }
 
       setLoadedMeals(responseData);
+      setIsLoading(false);
     }
 
     fetchMeals();
@@ -27,7 +25,9 @@ export default function Products() {
 
   return (
     <ul id="meals">
-      {loadedMeals.length === 0 ? (
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : loadedMeals.length === 0 ? (
         <p>No meals available.</p>
       ) : (
         loadedMeals.map((meal) => <Product key={meal.id} meal={meal} />)

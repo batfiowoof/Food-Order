@@ -245,7 +245,7 @@ h1 {
 .green-button:hover,
 .green-button:active {
   background-color: #0bb64c;
-  border-color: #0bb64c;
+  border-color: #04682a;
   color: #ffffff;
 }
 
