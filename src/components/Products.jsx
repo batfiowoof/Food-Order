@@ -1,26 +1,37 @@
-import data from "../../backend/data/available-meals.json";
+import { useContext, useEffect, useState } from "react";
 
-import Button from "./Button";
+import Product from "./Product";
 
 export default function Products() {
+  const [loadedMeals, setLoadedMeals] = useState([]);
+
+  function handleAddItemToCart() {
+    Cartctx.addItem(meal);
+    console.log("Added item to cart");
+  }
+
+  useEffect(() => {
+    async function fetchMeals() {
+      const response = await fetch("http://localhost:3000/meals");
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error("Something went wrong!");
+      }
+
+      setLoadedMeals(responseData);
+    }
+
+    fetchMeals();
+  }, []);
+
   return (
-    <div id="meals">
-      {data.map((meal, index) => (
-        <div className="meal-item" key={index}>
-          <article>
-            <img
-              src={`http://localhost:3000/${meal.image}`}
-              alt={`Image of ${meal.name}`}
-            />
-            <h3>{meal.name}</h3>
-            <p className="meal-item-description">{meal.description}</p>
-            <div className="meal-item-actions">
-              <Button>Add to Cart</Button>
-            </div>
-            <p className="meal-item-price">Price: ${meal.price}</p>
-          </article>
-        </div>
-      ))}
-    </div>
+    <ul id="meals">
+      {loadedMeals.length === 0 ? (
+        <p>No meals available.</p>
+      ) : (
+        loadedMeals.map((meal) => <Product key={meal.id} meal={meal} />)
+      )}
+    </ul>
   );
 }
