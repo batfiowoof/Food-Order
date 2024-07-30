@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Products from "./components/Products";
 import Cart from "./components/Cart";
 import { CartContextProvider } from "./store/CartContext";
+import { UserProgressContextProvider } from "./store/UserProgress";
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -14,9 +15,11 @@ function App() {
   return (
     <>
       <CartContextProvider>
-        <Header onCartButtonClick={openCart} />
-        {isCartOpen && <Cart onCloseCart={closeCart} />}
-        <Products />
+        <UserProgressContextProvider>
+          <Header onCartButtonClick={openCart} />
+          <Cart />
+          <Products />
+        </UserProgressContextProvider>
       </CartContextProvider>
     </>
   );
