@@ -15,7 +15,12 @@ export default function Cart({ onCloseCart }) {
 
   function handleOrder() {
     userProgressCtx.hideCart();
+    userProgressCtx.showCheckout();
+  }
+
+  function handleRemoveItems() {
     removeAllItemsFromCart();
+    userProgressCtx.hideCart();
   }
 
   let totalPrice = items.reduce((acc, item) => {
@@ -48,6 +53,9 @@ export default function Cart({ onCloseCart }) {
           Close
         </Button>
         <Button onClick={handleOrder}>Order</Button>
+        <Button onClick={handleRemoveItems} classes="red-button">
+          Clear Cart
+        </Button>
       </p>
     </Modal>
   );
