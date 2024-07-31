@@ -1,10 +1,10 @@
-export default function Input({ label, type, id }) {
+export default function Input({ label, type, name, id, ...props }) {
   return (
     <div className="control">
-      <label htmlFor={label} className="control-row">
+      <label htmlFor={id} className="control-row">
         {label}
       </label>
-      <input type={type} id={id} />
+      <input type={type} name={id} required {...props} />
     </div>
   );
 }
